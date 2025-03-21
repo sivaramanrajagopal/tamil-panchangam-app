@@ -7,10 +7,10 @@ const LOCATIONS = [
   { name: 'Chennai', latitude: 13.0827, longitude: 80.2707 },
   { name: 'Bangalore', latitude: 12.9716, longitude: 77.5946 },
   { name: 'Delhi', latitude: 28.6139, longitude: 77.2090 },
-  { name: 'California', latitude: 36.7783, longitude: 119.4179 },
-  { name: 'Atlanta', latitude: 33.7490, longitude: 84.3880 },
+  { name: 'California', latitude: 36.7783, longitude: -119.4179 },
+  { name: 'Atlanta', latitude: 33.7490, longitude: -84.3880 },
   { name: 'London', latitude: 51.5074, longitude: 0.1278 },
-  { name: 'Calgary', latitude: 51.0447, longitude: 114.0719 },
+  { name: 'Calgary', latitude: 51.0447, longitude: -114.0719 },
   { name: 'Singapore', latitude: 1.3521, longitude: 103.8198 },
   { name: 'Malaysia', latitude: 4.2105, longitude: 101.9758 }
 ];
@@ -112,6 +112,9 @@ export default function Home() {
         formattedDate: formatTamilDate(date),
         location: selectedLocation
       });
+
+      // Debug chandrashtama data
+      console.log("Chandrashtama data:", responseData.data.chandrashtama, responseData.data.chandrashtamaWarnings);
 
       // Fetch recommendations for default category
       fetchRecommendations(responseData.data, 'student');
@@ -491,19 +494,19 @@ export default function Home() {
               </div>
 
               <button
-  onClick={fetchPanchangam}
-  disabled={isLoading}
-  className={`w-full mt-6 py-5 px-4 text-white rounded-lg font-bold text-lg uppercase transition-all shadow-lg ${
-    isLoading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700 hover:-translate-y-1 active:translate-y-0'
-  }`}
-  style={{
-    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-    border: '2px solid #f97316',
-    minHeight: '60px'
-  }}
->
-  {isLoading ? 'ஏற்றுகிறது... (Loading...)' : 'பஞ்சாங்கத்தைக் காட்டு (Show Panchangam)'}
-</button>
+                onClick={fetchPanchangam}
+                disabled={isLoading}
+                className={`w-full mt-6 py-5 px-4 text-white rounded-lg font-bold text-lg uppercase transition-all shadow-lg ${
+                  isLoading ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700 hover:-translate-y-1 active:translate-y-0'
+                }`}
+                style={{
+                  boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                  border: '2px solid #f97316',
+                  minHeight: '60px'
+                }}
+              >
+                {isLoading ? 'ஏற்றுகிறது... (Loading...)' : 'பஞ்சாங்கத்தைக் காட்டு (Show Panchangam)'}
+              </button>
             </div>
 
             {/* Results */}
@@ -535,6 +538,31 @@ export default function Home() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* Chandrashtama Warning - ADD THIS SECTION */}
+                {panchangamData.chandrashtamaWarnings && panchangamData.chandrashtamaWarnings.length > 0 && (
+                  <div className="mb-6">
+                    <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                      <div className="flex">
+                        <div className="flex-shrink-0">
+                          <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fillRule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div className="ml-3">
+                          <h3 className="text-sm font-medium text-yellow-800">சந்திராஷ்டம எச்சரிக்கை (Chandrashtama Warning)</h3>
+                          <div className="mt-2 text-sm text-yellow-700">
+                            <ul className="list-disc pl-5 space-y-1">
+                              {panchangamData.chandrashtamaWarnings.map((warning, index) => (
+                                <li key={index}>{warning}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Personalized Guidance */}
                 <div className="mt-8">

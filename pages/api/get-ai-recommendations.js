@@ -150,7 +150,7 @@ export default async function handler(req, res) {
       try {
         // Format the prompt for Mistral AI
         const prompt = `
-        You are a wise Vedic astrologer providing precise, actionable guidance based on today's astrological configuration.
+        You are a wise Vedic astrologer providing precise, actionable guidance based on today's specific astrological configuration.
         
         Astrological Snapshot:
         - Date: ${panchangamData.date}
@@ -161,15 +161,26 @@ export default async function handler(req, res) {
         - Karana: ${panchangamData.karana}
         
         For a ${category}, generate:
-        1. 3 concise, practical "DO" actions for today.
-        2. 3 clear, actionable "DON'T" actions to avoid today.
+        1. 3 concise, practical "DO" actions that DIRECTLY ALIGN with today's astrological elements:
+           - One action reflecting the influence of ${panchangamData.weekday} (day)
+           - One action harnessing the energy of ${panchangamData.nakshatra} (nakshatra)
+           - One action aligned with ${panchangamData.tithi} (tithi)
+        
+        2. 3 clear, actionable "DON'T" actions to avoid based on today's celestial warnings:
+           - One caution related to ${panchangamData.weekday}'s challenging aspects
+           - One caution about activities unfavorable during ${panchangamData.nakshatra}
+           - One caution specific to ${panchangamData.tithi}'s potential difficulties
+        
         3. A very short, impactful insight (2-3 lines) summarizing the day's spiritual essence.
         
         Key Requirements:
-        - Use bullet points for Do's and Don'ts.
         - Be specific, clear, and straightforward.
         - Keep the tone positive and empowering.
+        - Include specific colors, directions, elements, or materials when relevant.
+        - Make recommendations appropriate for a ${category}.
+        - Ensure advice is practical and achievable today.
         - Avoid lengthy explanations; focus on practicality.
+        - Provide recommendations that would change with different astrological configurations.
         
         Respond in this strict JSON format:
         {
